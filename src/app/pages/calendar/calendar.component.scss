@@ -7,11 +7,33 @@
     display: flex;
     flex-direction: column;
 }
+mat-drawer-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 mat-drawer {
     width : 20%
 }
-::ng-deep .mat-calendar-header {
-    // height: 80px; /* Adjust the height as desired */
-    font-size: 2px; /* Optional: Adjust the font size */
-
-  }
+.selected {
+    background-color: #2196f3;
+    /* Blue background for selected range */
+    color: white;
+    /* Adjust text color if needed */
+}
+.hour-slot {
+    font-size: small;
+}
+.hour-slot::before {
+    content: " ";
+    display: block;
+    height: 1px;
+    width: 100%;
+    position: relative;
+    top: 12px;
+    left: 45px;
+    background: #dde3ea;
+}
+.minute-slot {
+    visibility: hidden;
+    max-height: 2px;
+}

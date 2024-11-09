@@ -1,14 +1,26 @@
-<mat-drawer-container class="container">
-  <mat-drawer mode="side" opened>
-    <mat-calendar
-      #calendar
-      [(selected)]="selected"
-      (selectedChange)="onDateChange($event)"
-    ></mat-calendar>
-  </mat-drawer>
-  <mat-drawer-content>
-    @for(timeSlot of timeSlots | hourOnly;track timeSlot) {
-        <div>{{timeSlot }}</div>
-    }
-  </mat-drawer-content>
-</mat-drawer-container>
+  <mat-drawer-container class="container">
+    <mat-drawer mode="side" opened>
+      <mat-calendar
+        #calendar
+        [(selected)]="selected"
+        (selectedChange)="onDateChange($event)"
+      />
+    </mat-drawer>
+    <mat-drawer-content>
+        @for(hour of hourSlots;track hour) {
+          <div class="hour-slot" [ngClass]="{ 'selected': isTimeSelected(hour)}"
+          (mousedown)="onMouseDown(hour)"
+          (mousemove)="onMouseMove(hour)"
+          (mouseup)="onMouseUp()">{{hour}}
+        </div>
+          @for(minute of minuteSlots;track minute) {
+            <div class="minute-slot" [ngClass]="{ 'selected': isTimeSelected(minute) }"
+            (mousedown)="onMouseDown(minute)"
+            (mousemove)="onMouseMove(minute)"
+            (mouseup)="onMouseUp()">{{minute}}</div>
+          }
+        
+      }
+      
+    </mat-drawer-content>
+  </mat-drawer-container>
