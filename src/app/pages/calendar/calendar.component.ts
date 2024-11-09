@@ -1,8 +1,15 @@
 import { NgFor } from '@angular/common';
-import { Component, inject, model, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  model,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCalendar, MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { DateNavigationService } from '@services/datenavigation.service';
@@ -20,16 +27,18 @@ import { DateNavigationService } from '@services/datenavigation.service';
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.scss',
 })
-export class CalendarComponent implements OnInit {
-  router = inject(Router);
-  private dateNavigationService = inject(DateNavigationService);
-  selected = model<Date>(new Date());
-  onDateChange(date: Date) {
-    this.dateNavigationService.navigateOnDateChange(date);
-  }
-  ngOnInit(): void {
+export class CalendarComponent implements AfterViewInit {
+  ngAfterViewInit(): void {
     this.dateNavigationService.selectedDate$.subscribe((value) => {
+      this.calendar!._goToDateInView(value, 'month');
       this.selected.set(value);
     });
+  }
+  router = inject(Router);
+  @ViewChild('calendar', { static: false }) calendar!: MatCalendar<Date>;
+  private dateNavigationService = inject(DateNavigationService);
+  selected = model<Date>();
+  onDateChange(date: Date) {
+    this.dateNavigationService.navigateOnDateChange(date);
   }
 }

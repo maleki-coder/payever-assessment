@@ -1,6 +1,6 @@
 <mat-drawer-container class="container">
   <mat-drawer mode="side" opened>
-    <mat-calendar [(selected)]="selected" (selectedChange)="onDateChange($event)"></mat-calendar>
+    <mat-calendar  #calendar [(selected)]="selected" (selectedChange)="onDateChange($event)"></mat-calendar>
   </mat-drawer>
   <mat-drawer-content>
     <router-outlet></router-outlet>

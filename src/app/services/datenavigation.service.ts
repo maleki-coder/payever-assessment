@@ -47,6 +47,7 @@ export class DateNavigationService {
       const nextDay = new Date(this.selectedDate);
       const offset = action === 'increment' ? 1 : -1;
       nextDay.setDate(this.selectedDate.getDate() + offset);
+      
       this.router.navigate([
         '/calendar',
         nextDay.getFullYear(),
