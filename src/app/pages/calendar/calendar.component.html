@@ -1,18 +1,8 @@
-<div class="container">
-  <div class="side1">
-    <button mat-flat-button>Create</button>
-    <div style="background-color: red">
-      <div *ngFor="let div of divs">
-        <p>Div number: {{ div }}</p>
-      </div>
-    </div>
-  </div>
-  <div class="side2">
-    <button mat-flat-button>Create</button>
-    <div style="background-color: red">
-      <div *ngFor="let div of divs">
-        <p>Div number: {{ div }}</p>
-      </div>
-    </div>
-  </div>
-</div>
+<mat-drawer-container class="container">
+  <mat-drawer mode="side" opened>
+    <mat-calendar [(selected)]="selected" (selectedChange)="onDateChange($event)"></mat-calendar>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>

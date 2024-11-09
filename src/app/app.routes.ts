@@ -12,4 +12,8 @@ export const routes: Routes = [
     path: 'calendar',
     component: CalendarComponent,
   },
+  {
+    path: 'calendar/:year/:month/:day',
+    component: CalendarComponent,
+  },
 ];

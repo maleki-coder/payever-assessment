@@ -1,15 +1,17 @@
 
 :host {
-    height: 100%;
+    height: calc(100vh - 8rem);
 }
 .container {
     height: inherit;
     display: flex;
     flex-direction: column;
 }
-.side1 { 
-    width: 30%;
+mat-drawer {
+    width : 20%
 }
-.side2{
-    width : 70%
-}
+::ng-deep .mat-calendar-header {
+    // height: 80px; /* Adjust the height as desired */
+    font-size: 2px; /* Optional: Adjust the font size */
+
+  }
