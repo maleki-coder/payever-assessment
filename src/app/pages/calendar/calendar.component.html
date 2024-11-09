@@ -1,8 +1,14 @@
 <mat-drawer-container class="container">
   <mat-drawer mode="side" opened>
-    <mat-calendar  #calendar [(selected)]="selected" (selectedChange)="onDateChange($event)"></mat-calendar>
+    <mat-calendar
+      #calendar
+      [(selected)]="selected"
+      (selectedChange)="onDateChange($event)"
+    ></mat-calendar>
   </mat-drawer>
   <mat-drawer-content>
-    <router-outlet></router-outlet>
+    @for(timeSlot of timeSlots | hourOnly;track timeSlot) {
+        <div>{{timeSlot }}</div>
+    }
   </mat-drawer-content>
 </mat-drawer-container>

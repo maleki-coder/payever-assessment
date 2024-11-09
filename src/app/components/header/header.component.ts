@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { ActivatedRoute, Router } from '@angular/router';
 import { DateNavigationService } from '@services/datenavigation.service';
 
 @Component({
