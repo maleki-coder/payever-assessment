@@ -16,30 +16,24 @@
           @for(hour of hourSlots;track hour) {
           <div
             class="hour"
-            (mousedown)="onMouseDown(hour)"
-            (mousemove)="onMouseMove(hour)"
-            (mouseup)="onMouseUp()"
           >
             {{ hour }}
           </div>
           }
         </div>
         <div class="minute-slot">
-          @for(hour of hourSlots;track hour) {
+          @for(hour of hourSlots; track hour;let hourIndex = $index) {
           <div class="hour-time">
-            @for(minute of minuteSlots;track minute) {
+            @for(minute of minuteSlots;track minute; let minuteIndex = $index) {
             <div
+              [ngClass]="{'test': isSlotLogged(hour, minute)}"
               class="minute"
-              [ngClass]="{ selected: isTimeSelected(minute) }"
-              (mousedown)="onMouseDown(minute)"
-              (mousemove)="onMouseMove(minute)"
-              (mouseup)="onMouseUp()"
+              (mousedown)="startSelection(hour , minute)" (mouseup)="endSelection(hour , minute)" (mousemove)="onMouseMove(hour, minute)"
             >
-              {{ minute }}
+              <!-- {{ hour + "-" + minute }} -->
             </div>
             }
           </div>
-
           }
         </div>
       </div>

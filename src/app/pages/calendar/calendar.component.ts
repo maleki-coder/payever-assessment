@@ -1,8 +1,9 @@
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
   Component,
+  HostListener,
   inject,
   model,
   OnInit,
@@ -27,6 +28,8 @@ import { HourOnlyPipe } from 'src/app/pipes/hourOnlyPipe';
     DragDropModule,
     MatDatepickerModule,
     RouterOutlet,
+    NgStyle,
+    NgIf,
     NgClass,
   ],
   providers: [provideNativeDateAdapter()],
@@ -40,9 +43,12 @@ export class CalendarComponent implements AfterViewInit, OnInit {
   selected = model<Date>();
   hourSlots!: Array<string>;
   minuteSlots!: Array<string>;
-  isDragging = false;
-  startSelection: string | null = null;
-  endSelection: string | null = null;
+  isSelecting = false;
+  startX = 0;
+  startY = 0;
+  currentX = 0;
+  currentY = 0;
+  overlayStyles = {};
   ngOnInit(): void {
     this.hourSlots = generateHourSlotsWithAmPm();
     this.minuteSlots = generateMinuteSlots();
@@ -56,46 +62,35 @@ export class CalendarComponent implements AfterViewInit, OnInit {
   onDateChange(date: Date) {
     this.dateNavigationService.navigateOnDateChange(date);
   }
-  onMouseDown(timeSlot: string) {
-    this.isDragging = true;
-    this.startSelection = timeSlot;
-    this.endSelection = null; // Reset end selection
+  startSelectionPoint: string | undefined;
+  endSelectionPoint: string | undefined;
+  // -------------------------
+  startSelection(h: any, m: any) {
+    this.isSelecting = true;
+    this.startSelectionPoint = `${h}-${m}`;
   }
+  endSelection(h: any, m: any) {
+    this.isSelecting = false;
+    this.endSelectionPoint = `${h}-${m}`;
+    console.log('ended here : ', h, m);
+  }
+  selectedSlots: Set<string> = new Set();
 
-  onMouseMove(timeSlot: string) {
-    if (this.isDragging) {
-      this.endSelection = timeSlot;
+  onMouseMove(h: any, m: any) {
+    if (this.isSelecting) {
+      const slotKey = `${h}-${m}`;
+
+      // Check if this combination has already been logged
+      if (!this.selectedSlots.has(slotKey)) {
+        console.log('mouse move:', h, m);
+
+        // Add this combination to the Set to prevent future logs
+        this.selectedSlots.add(slotKey);
+      }
     }
   }
-
-  onMouseUp() {
-    this.isDragging = false;
-    // Handle any final logic when mouse dragging ends
-  }
-
-  isTimeSelected(timeSlot: string): boolean {
-    if (!this.startSelection || !this.endSelection) {
-      return false;
-    }
-
-    // Logic to determine if a time slot falls within the selected range
-    const startIndex = this.getTimeSlotIndex(this.startSelection);
-    const endIndex = this.getTimeSlotIndex(this.endSelection);
-    const currentIndex = this.getTimeSlotIndex(timeSlot);
-
-    if (startIndex <= endIndex) {
-      return currentIndex >= startIndex && currentIndex <= endIndex;
-    } else {
-      return currentIndex >= endIndex && currentIndex <= startIndex;
-    }
-  }
-
-  getTimeSlotIndex(timeSlot: string): number {
-    // Custom logic to get the index of a time slot from hourSlots and minuteSlots
-    const hourIndex = this.hourSlots.indexOf(timeSlot);
-    if (hourIndex !== -1) return hourIndex;
-
-    const minuteIndex = this.minuteSlots.indexOf(timeSlot);
-    return minuteIndex;
+  isSlotLogged(hour: any, minute: any): boolean {
+    const slotKey = `${hour}-${minute}`;
+    return this.selectedSlots.has(slotKey);
   }
 }
