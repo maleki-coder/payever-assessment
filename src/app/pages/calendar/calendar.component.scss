@@ -1,39 +1,100 @@
-
 :host {
-    height: calc(100vh - 8rem);
+  height: calc(100vh - 8rem);
 }
 .container {
-    height: inherit;
-    display: flex;
-    flex-direction: column;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
 }
 mat-drawer-content {
-    overflow-y: auto;
-    overflow-x: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 mat-drawer {
-    width : 20%
+  width: 20%;
 }
 .selected {
-    background-color: #2196f3;
-    /* Blue background for selected range */
-    color: white;
-    /* Adjust text color if needed */
+  background-color: #2196f3;
+  /* Blue background for selected range */
+  color: white;
+  /* Adjust text color if needed */
 }
-.hour-slot {
-    font-size: small;
-}
-.hour-slot::before {
-    content: " ";
-    display: block;
-    height: 1px;
-    width: 100%;
-    position: relative;
-    top: 12px;
-    left: 45px;
-    background: #dde3ea;
-}
-.minute-slot {
-    visibility: hidden;
-    max-height: 2px;
+
+.time-slot-container {
+  border: 1px solid #dde3ea;
+  background-color: #ffffff;
+  // padding: 1rem;
+  margin: 1rem;
+  border-radius: 2rem;
+  .time-slot-header {
+    display: flex;
+    position: sticky;
+    top: 0;
+    align-items: center;
+    padding: 0 2rem;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    // width: 100%;
+    min-height: 3rem;
+    z-index: 999999;
+    background-color: red;
+  }
+  .time-slot {
+    padding: 1rem;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    .hour-slot {
+      margin-inline-start: 2rem;
+      padding-inline-end: 2rem;
+      width: 5%;
+      border-right: 1px solid #dde3ea;
+      padding-right: 12px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: end;
+      text-align: end;
+      font-size: small;
+      position: relative;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      .hour {
+        min-height: 3rem;
+        margin-inline-end: 6px;
+      }
+    }
+    .minute-slot {
+      width: 95%;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: end;
+      text-align: end;
+      font-size: small;
+      position: relative;
+      .hour-time {
+        &::before {
+          content: "";
+          display: block;
+          height: 1px;
+          width: 100%;
+          position: absolute;
+          margin-top: 10px;
+          left: -10px;
+          background: #dde3ea;
+        }
+      }
+      .minute {
+        //   visibility: hidden;
+        max-height: 12px;
+        width: 100%;
+        font-size: 10px;
+      }
+    }
+  }
 }

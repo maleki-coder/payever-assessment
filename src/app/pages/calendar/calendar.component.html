@@ -1,26 +1,48 @@
-  <mat-drawer-container class="container">
-    <mat-drawer mode="side" opened>
-      <mat-calendar
-        #calendar
-        [(selected)]="selected"
-        (selectedChange)="onDateChange($event)"
-      />
-    </mat-drawer>
-    <mat-drawer-content>
-        @for(hour of hourSlots;track hour) {
-          <div class="hour-slot" [ngClass]="{ 'selected': isTimeSelected(hour)}"
-          (mousedown)="onMouseDown(hour)"
-          (mousemove)="onMouseMove(hour)"
-          (mouseup)="onMouseUp()">{{hour}}
-        </div>
-          @for(minute of minuteSlots;track minute) {
-            <div class="minute-slot" [ngClass]="{ 'selected': isTimeSelected(minute) }"
-            (mousedown)="onMouseDown(minute)"
-            (mousemove)="onMouseMove(minute)"
-            (mouseup)="onMouseUp()">{{minute}}</div>
+<mat-drawer-container class="container">
+  <mat-drawer mode="side" opened>
+    <mat-calendar
+      #calendar
+      [(selected)]="selected"
+      (selectedChange)="onDateChange($event)"
+    />
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="time-slot-container">
+      <div class="time-slot-header">
+        <span>test</span>
+      </div>
+      <div class="time-slot">
+        <div class="hour-slot">
+          @for(hour of hourSlots;track hour) {
+          <div
+            class="hour"
+            (mousedown)="onMouseDown(hour)"
+            (mousemove)="onMouseMove(hour)"
+            (mouseup)="onMouseUp()"
+          >
+            {{ hour }}
+          </div>
           }
-        
-      }
-      
-    </mat-drawer-content>
-  </mat-drawer-container>
+        </div>
+        <div class="minute-slot">
+          @for(hour of hourSlots;track hour) {
+          <div class="hour-time">
+            @for(minute of minuteSlots;track minute) {
+            <div
+              class="minute"
+              [ngClass]="{ selected: isTimeSelected(minute) }"
+              (mousedown)="onMouseDown(minute)"
+              (mousemove)="onMouseMove(minute)"
+              (mouseup)="onMouseUp()"
+            >
+              {{ minute }}
+            </div>
+            }
+          </div>
+
+          }
+        </div>
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
