@@ -65,29 +65,45 @@ export class CalendarComponent implements AfterViewInit, OnInit {
   startSelectionPoint: string | undefined;
   endSelectionPoint: string | undefined;
   // -------------------------
-  startSelection(h: any, m: any) {
+  startSelection(event :any) {
     this.isSelecting = true;
-    this.startSelectionPoint = `${h}-${m}`;
+    this.startY = event.clientY;
+    // this.startSelectionPoint = `${h}-${m}`;
   }
   endSelection(h: any, m: any) {
     this.isSelecting = false;
-    this.endSelectionPoint = `${h}-${m}`;
-    console.log('ended here : ', h, m);
+    // this.endSelectionPoint = `${h}-${m}`;
+    
   }
   selectedSlots: Set<string> = new Set();
 
-  onMouseMove(h: any, m: any) {
+  onMouseMove(event :any) {
     if (this.isSelecting) {
-      const slotKey = `${h}-${m}`;
-
-      // Check if this combination has already been logged
-      if (!this.selectedSlots.has(slotKey)) {
-        console.log('mouse move:', h, m);
-
-        // Add this combination to the Set to prevent future logs
-        this.selectedSlots.add(slotKey);
+      if (event.clientY === 0) {
+        return; // Skip invalid drag events
+      }
+      const start = this.startY;
+      // Calculate the distance moved along the Y-axis
+      const deltaY = event.clientY - this.startY;
+      // Check if the Y-axis distance is more than 12px (absolute value)
+      if (Math.abs(deltaY) > 12) {
+      // Update the start position to the current Y position
+      console.log(event.clientY - start);
+      // this.startY = event.clientY;
+      console.log("it has moved 12 px")
       }
     }
+    // if (this.isSelecting) {
+    //   const slotKey = `${h}-${m}`;
+
+    //   // Check if this combination has already been logged
+    //   if (!this.selectedSlots.has(slotKey)) {
+    //     console.log('mouse move:', h, m);
+
+    //     // Add this combination to the Set to prevent future logs
+    //     this.selectedSlots.add(slotKey);
+    //   }
+    // }
   }
   isSlotLogged(hour: any, minute: any): boolean {
     const slotKey = `${hour}-${minute}`;
